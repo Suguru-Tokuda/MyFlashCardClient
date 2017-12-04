@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!-- was: <?xml version="1.0" encoding="UTF-8"?> -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xmlns:mvc="http://www.springframework.org/schema/mvc"
-xmlns:tx="http://www.springframework.org/schema/tx"
-xmlns:context="http://www.springframework.org/schema/context"
-xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
                     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd     
                     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
                     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springf
     <bean class="api.DeckStore" id="deckStore" scope="singleton" autowire="byName" name="deckStore" />
     <bean class="api.CardStore" id="cardStore" scope="singleton" autowire="byName" name="cardStore" />
     <bean class="api.SchoolClassStore" id="schoolClassStore" scope="singleton" autowire="byName" name="schoolClassStore" />
-    <bean class="api.CardAPI" id="cardAPI" scope="sigleton" autowire="byName" name="schoolClassAPI" />
-    <bean class="api.DeckAPI" id="deckAPI" scope="sigleton" autowire="byName" name="schoolClassAPI" />
-    <bean class="api.SchoolClassAPI" id="schoolClassAPI" scope="sigleton" autowire="byName" name="schoolClassAPI" />
+    <bean class="api.CardAPI" id="cardAPI" scope="singleton" autowire="byName" name="cardAPI" />
+    <bean class="api.DeckAPI" id="deckAPI" scope="singleton" autowire="byName" name="deckAPI" />
+    <bean class="api.SchoolClassAPI" id="schoolClassAPI" scope="singleton" autowire="byName" name="schoolClassAPI" />
 </beans>
