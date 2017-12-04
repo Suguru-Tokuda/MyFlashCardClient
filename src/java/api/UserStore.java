@@ -1,48 +1,53 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package api;
 
 import java.util.ArrayList;
 import java.util.List;
-import models.Deck;
+import models.User;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 
 /**
- * This class processes a JSON String into object.
  *
  * @author Suguru
  */
-public class DeckStore {
-
-    private List<Deck> tempDeckList;
-    private Deck tempDeck;
-    private DecksAPI decksAPI = new DecksAPI();
-
+public class UserStore {
+    
+    private List<User> tempUserList;
+    private User tempUser;
+    private UserAPI userAPI = new UserAPI();
+    
     ObjectMapper mapper = new ObjectMapper();
     JSONParser jParser = new JSONParser();
     JSONObject jsonObject;
     String jsonString;
     JSONArray jsonArray;
-
-    public List<Deck> getDecksByClassid(String classid) {
-
-        jsonString = decksAPI.getDecksForClassid(classid);
+    
+    public List<User> getAllSchoolClasses() {
+        jsonString = userAPI.getAllUsers();
 
         mapper = new ObjectMapper();
-        tempDeck = null;
-        tempDeckList = new ArrayList<>();
+        tempUser = null;
+        tempUserList = new ArrayList<>();
         try {
             jsonArray = (JSONArray) jParser.parse(jsonString);
             for (int i = 0; i < jsonArray.size(); i++) {
-                tempDeck = mapper.readValue(jsonArray.get(i).toString(), Deck.class);
-                tempDeckList.add(tempDeck);
+                tempUser = mapper.readValue(jsonArray.get(i).toString(), User.class);
+                tempUserList.add(tempUser);
             }
         } catch (Exception ex) {
             System.out.println(ex);
         }
 
-        return tempDeckList;
+        return tempUserList;
     }
-
+    
+    
+    
 }

@@ -10,12 +10,13 @@ package models;
  * @author Suguru
  */
 public class Card {
-    
+
     private String id;
     private String question;
     private String answer;
+    private String deckid;
     private int priority;
-    
+
     public Card(String id, String question, String answer, int priority) {
         this.id = id;
         this.question = question;
@@ -35,6 +36,20 @@ public class Card {
      */
     public void setId(String id) {
         this.id = id;
+    }
+
+    /**
+     * @return the deckid
+     */
+    public String getDeckid() {
+        return deckid;
+    }
+
+    /**
+     * @param deckid the deckid to set
+     */
+    public void setDeckid(String deckid) {
+        this.deckid = deckid;
     }
 
     /**
@@ -78,7 +93,5 @@ public class Card {
     public void setPriority(int priority) {
         this.priority = priority;
     }
-    
-    
-    
+
 }

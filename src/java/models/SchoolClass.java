@@ -12,16 +12,16 @@ package models;
 public class SchoolClass {
     
     private String id;
-    private String classNum;
-    private String name;
+    private String classnumber;
+    private String classname;
     
     public SchoolClass() {
     }
 
     public SchoolClass(String id, String classNum, String name) {
         this.id = id;
-        this.classNum = classNum;
-        this.name = name;
+        this.classnumber = classNum;
+        this.classname = name;
     }    
     
     /**
@@ -42,28 +42,28 @@ public class SchoolClass {
      * @return the classNum
      */
     public String getClassNum() {
-        return classNum;
+        return classnumber;
     }
 
     /**
      * @param classNum the classNum to set
      */
     public void setClassNum(String classNum) {
-        this.classNum = classNum;
+        this.classnumber = classNum;
     }
 
     /**
      * @return the name
      */
     public String getName() {
-        return name;
+        return classname;
     }
 
     /**
      * @param name the name to set
      */
     public void setName(String name) {
-        this.name = name;
+        this.classname = name;
     }
     
     
