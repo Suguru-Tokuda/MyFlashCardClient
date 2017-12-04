@@ -18,7 +18,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springf
         <property name="prefix" value="/WEB-INF/jsp/" />
         <property name="suffix" value=".jsp" />
     </bean>
-    
-    
-
+    <bean class="api.DeckStore" id="deckStore" scope="singleton" autowire="byName" name="deckStore" />
+    <bean class="api.CardStore" id="cardStore" scope="singleton" autowire="byName" name="cardStore" />
+    <bean class="api.SchoolClassStore" id="schoolClassStore" scope="singleton" autowire="byName" name="schoolClassStore" />
+    <bean class="api.CardAPI" id="cardAPI" scope="sigleton" autowire="byName" name="schoolClassAPI" />
+    <bean class="api.DeckAPI" id="deckAPI" scope="sigleton" autowire="byName" name="schoolClassAPI" />
+    <bean class="api.SchoolClassAPI" id="schoolClassAPI" scope="sigleton" autowire="byName" name="schoolClassAPI" />
 </beans>

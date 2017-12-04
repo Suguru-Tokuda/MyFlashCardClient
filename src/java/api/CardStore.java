@@ -30,9 +30,9 @@ public class CardStore {
     String jsonString;
     JSONArray jsonArray;
 
-    public List<Card> getDecksByClassid(String deckid) {
+    public List<Card> getCardsByDeckid(String deckid) {
 
-        jsonString = cardAPI.getCardForDeckid(deckid);
+        jsonString = cardAPI.getCardByDeckid(deckid);
 
         mapper = new ObjectMapper();
         tempCard = null;

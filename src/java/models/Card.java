@@ -16,9 +16,13 @@ public class Card {
     private String answer;
     private String deckid;
     private int priority;
+    
+    public Card() {
+    }
 
-    public Card(String id, String question, String answer, int priority) {
+    public Card(String id, String question, String answer, String deckid, int priority) {
         this.id = id;
+        this.deckid = deckid;
         this.question = question;
         this.answer = answer;
         this.priority = priority;

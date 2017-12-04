@@ -16,7 +16,7 @@ import models.SchoolClass;
  *
  * @author Suguru
  */
-public class DecksAPI {
+public class DeckAPI {
     
     private static String BASE_URL = "http://gfish3.it.ilstu.edu:8080/stokuda_fall2017_MyFlashCardWS/webresources/entities.decks/";
     

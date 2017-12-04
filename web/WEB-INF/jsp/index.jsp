@@ -29,7 +29,7 @@
             </div>
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Page 1</a></li>
+                <li><a href="${pageContext.request.contextPath}/addDeck">Add a Deck</a></li>
             </ul>
             <form class="navbar-form navbar-left">
                 <div class="form-group">
@@ -46,17 +46,28 @@
 
     <main role="main" class="container">
         <h2>All Decks</h2>
-        <table class="table table-dark">
-            <tr>
-                <th>#</ht>
-                <th>Deck name</th>
-                <th>Class Number</th>
-                <th>Class Name</th>
-            </tr>
-            
-            
-            
-        </table>
+        <form method="get">
+            <table class="table table-dark">
+                <tr>
+                    <th>#</ht>
+                    <th>Deck name</th>
+                </tr>
+                <c:set var="count" value="1" scope="page" />
+                <c:forEach var="deck" items="${deckList}">
+                    <tr>
+                        <td>${count}</td>
+                        <td>${deck.deckname}</td>
+                        <td><input type="submit" class="btn btn-default" value="View Deck" formaction="${pageContext.request.contextPath}/viewDeckDetails/${deck.id}" ></input></td>
+                    </tr>
+
+
+                    <c:set var="count" value="${count + 1}" scope="page"/>   
+                </c:forEach>
+
+
+
+            </table>
+        </form>
     </main>
     <footer class="container-fluid bg-4 text-center">
         <p>Bootstrap Theme Made By <a href="https://www.w3schools.com">www.w3schools.com</a></p> 

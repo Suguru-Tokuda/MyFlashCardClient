@@ -17,11 +17,16 @@ public class SchoolClass {
     
     public SchoolClass() {
     }
+    
+    public SchoolClass(String classnumber, String classname) {
+        this.classnumber = classnumber;
+        this.classname = classname;
+    }
 
-    public SchoolClass(String id, String classNum, String name) {
+    public SchoolClass(String id, String classnumber, String classname) {
         this.id = id;
-        this.classnumber = classNum;
-        this.classname = name;
+        this.classnumber = classnumber;
+        this.classname = classname;
     }    
     
     /**

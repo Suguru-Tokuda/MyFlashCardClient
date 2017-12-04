@@ -17,7 +17,7 @@ public class DeckStore {
 
     private List<Deck> tempDeckList;
     private Deck tempDeck;
-    private DecksAPI decksAPI = new DecksAPI();
+    private DeckAPI decksAPI = new DeckAPI();
 
     ObjectMapper mapper = new ObjectMapper();
     JSONParser jParser = new JSONParser();

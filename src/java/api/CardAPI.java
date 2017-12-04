@@ -52,7 +52,7 @@ public class CardAPI {
         return true;  
     }
     
-    public String getCardForDeckid(String deckid) {
+    public String getCardByDeckid(String deckid) {
         Client client = ClientBuilder.newClient();
         String requestURL = BASE_URL + "findByDeckid/" + deckid;
         
