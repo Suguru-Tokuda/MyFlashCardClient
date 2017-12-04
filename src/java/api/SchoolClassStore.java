@@ -6,7 +6,7 @@
 package api;
 
 /**
- *
+ * This class processes JSON String into SchoolClass objects
  * @author Suguru
  */
 public class SchoolClassStore {

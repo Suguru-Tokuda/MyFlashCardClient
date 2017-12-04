@@ -6,7 +6,7 @@
 package api;
 
 /**
- *
+ * This class process JSON String into objects.
  * @author Suguru
  */
 public class CardStore {

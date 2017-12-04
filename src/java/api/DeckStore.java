@@ -1,14 +1,28 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package api;
 
+import org.json.*;
+import models.Deck;
+
 /**
- *
+ * This class processes a JSON String into object.
  * @author Suguru
  */
 public class DeckStore {
+    
+    private Deck[] decks;
+    private Deck tempDeck;
+    private DecksAPI decksAPI = new DecksAPI();    
+    
+    public Deck[] getDecksByClassid(String classid) {
+        
+        String jsonString = decksAPI.getDecksForClassid(classid);
+        
+        
+        
+        
+        
+    }
+    
+    
     
 }
