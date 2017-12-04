@@ -28,7 +28,7 @@ public class MyController {
         
         if (deckList != null) {
             for (Deck deck : deckList) {
-                System.out.println(deck.getDeckName());
+                System.out.println(deck.getDeckname());
             }
         }
         
