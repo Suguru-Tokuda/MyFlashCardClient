@@ -12,16 +12,16 @@ package models;
 public class Deck {
     
     private String id;    
-    private String deckName;
+    private String deckname;
     private String classid;
     private String userid;
    
     public Deck() {
     }
     
-    public Deck(String id, String deckName, String classid) {
+    public Deck(String id, String deckname, String classid) {
         this.id = id;
-        this.deckName = deckName;
+        this.deckname = deckname;
         this.classid = classid;
     }
 
@@ -42,15 +42,15 @@ public class Deck {
     /**
      * @return the deckName
      */
-    public String getDeckName() {
-        return deckName;
+    public String getDeckname() {
+        return deckname;
     }
 
     /**
-     * @param deckName the deckName to set
+     * @param deckname the deckName to set
      */
-    public void setDeckName(String deckName) {
-        this.deckName = deckName;
+    public void setDeckname(String deckname) {
+        this.deckname = deckname;
     }
 
     /**
@@ -80,7 +80,5 @@ public class Deck {
     public void setUserid(String userid) {
         this.userid = userid;
     }
-    
-    
    
 }

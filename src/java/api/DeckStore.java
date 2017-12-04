@@ -54,6 +54,7 @@ public class DeckStore {
         tempDeckList = new ArrayList<>();
         try {
             jsonArray = (JSONArray) jParser.parse(jsonString);
+            System.out.println(jsonArray);
             for (int i = 0; i < jsonArray.size(); i++) {
                 tempDeck = mapper.readValue(jsonArray.get(i).toString(), Deck.class);
                 tempDeckList.add(tempDeck);
