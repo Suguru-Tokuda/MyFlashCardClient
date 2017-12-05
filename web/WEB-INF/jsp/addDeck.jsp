@@ -22,7 +22,7 @@
     </head>
 
     <body>
-    <nav class="navbar navbar-inverse">
+    <nav class="navbar navbar-inverse bg-primary">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">MyFlashCard</a>
@@ -43,37 +43,43 @@
             </ul>
         </div>
     </nav>
-    
-    <main role="main" class="container">
-        
-        <div class="col-md-6">
-            <div class="form-grup">
-                <p>Class list:</p>
-                <select class="form-control" id="classList">
-                    <c:forEach var="schoolClass" items="schoolClassList">
-                        <option>${schoolClass.classnumber} ${schoolClass.classname}</option>
-                    </c:forEach>
-                </select>
-                <span style="margin-top: 50px;"/>
-                <p>Not in the list? Add it.</p>
+    <main>
+        <form method="post">
+            <div class="container">
                 <div class="row">
-                    <label class="control-label">Class Number:</label>
-                    <input type="text" name="classnumber" />
+                    <div class="col-md-6">
+                        <div class="form-grup">
+                            <h3>Class List:</h3>
+                            <div style="margin-top: 35px;"></div>
+                            <select class="form-control" id="classList">
+                                <c:forEach var="schoolClass" items="${schoolClassList}">
+                                    <option>${schoolClass.classnumber}: ${schoolClass.classname}</option>
+                                </c:forEach>
+                            </select>
+                            <br>
+                            <div class="form-group">
+                                <p>Not in the list? Add it.</p>
+                                <label class="control-label">Class Number:</label>
+                                <input type="text" class="form-control" name="classnumber" />
+                                <label class="control-label">Class Name:</label>
+                                <input type="text" class="form-control" name="classname" />
+                                <div style="margin-top: 20px;"></div>
+                                <input type="submit" class="btn btn-primary" formaction="${pageContext.request.contextPath}/addClass/" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-grup">
+                            <h3>Deck Information:</h3>
+                            <div class="form-group">
+                                <label class="control-label">Deck Name:</label>
+                                <input type="text" class="form-control" name="classnumber" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="row">
-                    <label class="control-label">Class Name:</label>
-                    <input type="text" name="classname" />
-                </div>
-            </div>            
-        </div>
-        <div class="col-md-6">
-            
-            
-        </div>
-
+        </form>
     </main>
-
-
     <footer class="container-fluid bg-4 text-center">
         <p>Bootstrap Theme Made By <a href="https://www.w3schools.com">www.w3schools.com</a></p> 
     </footer>

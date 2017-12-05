@@ -9,7 +9,7 @@ package models;
  *
  * @author Suguru
  */
-public class SchoolClass {
+public class SchoolClass implements Comparable<SchoolClass> {
     
     private String id;
     private String classnumber;
@@ -46,29 +46,40 @@ public class SchoolClass {
     /**
      * @return the classNum
      */
-    public String getClassNum() {
+    public String getClassnumber() {
         return classnumber;
     }
 
     /**
      * @param classNum the classNum to set
      */
-    public void setClassNum(String classNum) {
-        this.classnumber = classNum;
+    public void setClassnumber(String classnumber) {
+        this.classnumber = classnumber;
     }
 
     /**
      * @return the name
      */
-    public String getName() {
+    public String getClassname() {
         return classname;
     }
 
     /**
      * @param name the name to set
      */
-    public void setName(String name) {
-        this.classname = name;
+    public void setClassname(String classname) {
+        this.classname = classname;
+    }
+
+    @Override
+    public int compareTo(SchoolClass o) {        
+        if (this.classnumber.compareTo(o.getClassnumber()) > 0) {
+            return -1;
+        } else if (this.classnumber.compareTo(o.getClassnumber()) == 0) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
     
     
