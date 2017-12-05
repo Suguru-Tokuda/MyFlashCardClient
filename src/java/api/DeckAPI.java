@@ -24,7 +24,7 @@ public class DeckAPI {
         return BASE_URL;
     }
     
-    public boolean postClass(Deck deck) {
+    public boolean postDeck(Deck deck) {
         Client client = ClientBuilder.newClient();
         
         String response = client
@@ -35,7 +35,7 @@ public class DeckAPI {
         return true;
     }
     
-    public boolean putSchoolDeck(Deck deck, String id) {
+    public boolean putDeck(Deck deck, String id) {
         Client client = ClientBuilder.newClient();
         String putURL = BASE_URL + id;
         String response = client

@@ -19,10 +19,17 @@ public class Deck {
     public Deck() {
     }
     
-    public Deck(String id, String deckname, String classid) {
+    public Deck(String deckname, String classid, String userid) {
+        this.deckname = deckname;
+        this.classid = classid;
+        this.userid = userid;
+    }
+    
+    public Deck(String id, String deckname, String classid, String userid) {
         this.id = id;
         this.deckname = deckname;
         this.classid = classid;
+        this.userid = userid;
     }
 
     /**

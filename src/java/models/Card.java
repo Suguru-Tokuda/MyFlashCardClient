@@ -19,6 +19,13 @@ public class Card {
     
     public Card() {
     }
+    
+    public Card(String question, String answer, String deckid, int priority) {
+        this.question = question;
+        this.answer = answer;
+        this.deckid = deckid;
+        this.priority = priority;
+    }
 
     public Card(String id, String question, String answer, String deckid, int priority) {
         this.id = id;

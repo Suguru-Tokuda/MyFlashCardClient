@@ -11,6 +11,7 @@ import api.DeckAPI;
 import api.DeckStore;
 import api.SchoolClassAPI;
 import api.SchoolClassStore;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import models.Card;
@@ -45,6 +46,7 @@ public class MyController {
     SchoolClassAPI schoolClassAPI;
     List<Deck> deckList;
     List<Card> cardList;
+    List<Card> cardListToAdd = new ArrayList<>();
     
     @RequestMapping(value="/", method = RequestMethod.GET)
     public String viewIndex(Model model){
@@ -89,6 +91,36 @@ public class MyController {
         } else {
             return "somewhereelse";
         }
+    }
+    
+    @RequestMapping(value="/addDeck", method=RequestMethod.POST)
+    public String postDeck(@RequestParam("deckname") String deckname, @RequestParam("classid") String classid, @RequestParam("userid") String userid) {
+        Deck tempDeck = new Deck(deckname, classid, userid);
+        if (deckAPI.postDeck(tempDeck)) {
+            return "somewhere";
+        } else {
+            return "somewhereelse";
+        }
+    }
+    
+    @RequestMapping(value="/addCard", method=RequestMethod.POST)
+    public String addCardToList(@RequestParam("question") String question, @RequestParam("answer") String answer, @RequestParam("deckid") String deckid) {
+        int priority = cardListToAdd.size() + 1;
+        cardListToAdd.add(new Card(question, answer, deckid, priority));
+        
+        return "somewhere";
+    }
+    
+    @RequestMapping(value="/finishAddingCards", method=RequestMethod.POST)
+    public String postCards() {
+        if (cardListToAdd.size() != 0) {
+            for (Card card : cardListToAdd) {
+                cardAPI.postCard(card);   
+            }
+            return "somewhere";
+        } else {
+            return "unsuccessful";
+        }     
     }
     
 }
