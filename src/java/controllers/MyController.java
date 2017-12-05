@@ -93,7 +93,7 @@ public class MyController {
         }
     }
     
-    @RequestMapping(value="/addDeck", method=RequestMethod.POST)
+    @RequestMapping(value="/doAddDeck", method=RequestMethod.POST)
     public String postDeck(@RequestParam("deckname") String deckname, @RequestParam("classid") String classid, @RequestParam("userid") String userid) {
         Deck tempDeck = new Deck(deckname, classid, userid);
         if (deckAPI.postDeck(tempDeck)) {
