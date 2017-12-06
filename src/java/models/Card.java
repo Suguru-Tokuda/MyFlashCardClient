@@ -50,20 +50,6 @@ public class Card {
     }
 
     /**
-     * @return the deckid
-     */
-    public String getDeckid() {
-        return deckid;
-    }
-
-    /**
-     * @param deckid the deckid to set
-     */
-    public void setDeckid(String deckid) {
-        this.deckid = deckid;
-    }
-
-    /**
      * @return the question
      */
     public String getQuestion() {
@@ -92,6 +78,20 @@ public class Card {
     }
 
     /**
+     * @return the deckid
+     */
+    public String getDeckid() {
+        return deckid;
+    }
+
+    /**
+     * @param deckid the deckid to set
+     */
+    public void setDeckid(String deckid) {
+        this.deckid = deckid;
+    }
+
+    /**
      * @return the priority
      */
     public int getPriority() {
@@ -104,5 +104,7 @@ public class Card {
     public void setPriority(int priority) {
         this.priority = priority;
     }
+
+    
 
 }

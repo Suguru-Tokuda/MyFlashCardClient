@@ -25,10 +25,10 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">MyFlashCard</a>
+                <a class="navbar-brand" href="${pageContext.request.contextPath}/">MyFlashCard</a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
+                <li class="active"><a href="${pageContext.request.contextPath}/">Home</a></li>
                 <li><a href="${pageContext.request.contextPath}/addDeck">Add a Deck</a></li>
             </ul>
             <form class="navbar-form navbar-left">
@@ -47,10 +47,11 @@
     <main role="main" class="container">
         <h2>All Decks</h2>
         <form method="get">
-            <table class="table table-dark">
+            <table class="table table-striped">
                 <tr>
                     <th>#</ht>
                     <th>Deck name</th>
+                    <th>Action</th>
                 </tr>
                 <c:set var="count" value="1" scope="page" />
                 <c:forEach var="deck" items="${deckList}">

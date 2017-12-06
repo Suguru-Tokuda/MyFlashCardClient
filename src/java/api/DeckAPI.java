@@ -17,16 +17,16 @@ import models.SchoolClass;
  * @author Suguru
  */
 public class DeckAPI {
-    
+
     private static String BASE_URL = "http://gfish3.it.ilstu.edu:8080/stokuda_fall2017_MyFlashCardWS/webresources/entities.decks/";
-    
+
     public static String getBASE_URL() {
         return BASE_URL;
     }
-    
+
     public boolean postDeck(Deck deck) {
         Client client = ClientBuilder.newClient();
-        
+
         String response = client
                 .target(BASE_URL)
                 .request(MediaType.APPLICATION_JSON)
@@ -34,18 +34,18 @@ public class DeckAPI {
                 .post(Entity.json(deck), String.class);
         return true;
     }
-    
+
     public boolean putDeck(Deck deck, String id) {
         Client client = ClientBuilder.newClient();
         String putURL = BASE_URL + id;
         String response = client
-               .target(putURL)
-               .request(MediaType.APPLICATION_JSON)
-               .accept(MediaType.TEXT_PLAIN_TYPE)
+                .target(putURL)
+                .request(MediaType.APPLICATION_JSON)
+                .accept(MediaType.TEXT_PLAIN_TYPE)
                 .put(Entity.json(deck), String.class);
         return true;
     }
-    
+
     public boolean deleteDeck(String id) {
         Client client = ClientBuilder.newClient();
         String deleteURL = BASE_URL + id;
@@ -54,29 +54,38 @@ public class DeckAPI {
                 .request()
                 .accept(MediaType.TEXT_PLAIN_TYPE)
                 .delete(String.class);
-        return true;  
+        return true;
     }
-    
+
     public String getAllDecks() {
         Client client = ClientBuilder.newClient();
         String requestURL = BASE_URL;
-        
+
         String response = client
                 .target(requestURL)
                 .request(MediaType.APPLICATION_JSON)
                 .get(String.class);
         return response;
     }
-    
+
     public String getDecksForClassid(String classid) {
         Client client = ClientBuilder.newClient();
         String requestURL = BASE_URL + "findByClassid/" + classid;
-                String response = client
+        String response = client
                 .target(requestURL)
                 .request(MediaType.APPLICATION_JSON)
                 .get(String.class);
         return response;
     }
 
-    
+    public String getDeckByUseridAndClassidAndDeckname(String userid, String classid, String deckname) {
+        Client client = ClientBuilder.newClient();
+        String requestURL = BASE_URL + "findByUseridAndClassidAndDeckname/" + userid + "/" + classid + "/" + deckname;
+        String response = client
+               .target(requestURL)
+               .request(MediaType.APPLICATION_JSON)
+               .get(String.class);
+        return response;
+    }
+
 }

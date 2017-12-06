@@ -44,6 +44,27 @@ public class DeckStore {
         return tempDeckList;
     }
     
+        public List<Deck> getDeckByUseridAndClassidAndDeckname(String userid, String classid, String deckname) {
+
+        jsonString = decksAPI.getDeckByUseridAndClassidAndDeckname(tempDeck.getUserid(), tempDeck.getClassid(), tempDeck.getDeckname());
+
+        mapper = new ObjectMapper();
+        tempDeck = null;
+        tempDeckList = new ArrayList<>();
+        try {
+            jsonArray = (JSONArray) jParser.parse(jsonString);
+            for (int i = 0; i < jsonArray.size(); i++) {
+                tempDeck = mapper.readValue(jsonArray.get(i).toString(), Deck.class);
+                tempDeckList.add(tempDeck);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return tempDeckList;
+    }
+    
+    
+    
     public List<Deck> getAllDecks() {
         
         jsonString = decksAPI.getAllDecks();
