@@ -48,7 +48,6 @@
         <h2>Cards for ${deckName}</h2>
             <table class="table table-dark">
                 <tr>
-                    <th>#</ht>
                     <th>Priority</th>
                     <th>Question</th>
                     <th>Answer</th>
@@ -57,7 +56,6 @@
                 <c:forEach var="card" items="${cardList}">
                     <tr>
                         <td>${count}</td>
-                        <td>${card.priority}</td>
                         <td>${card.question}</td>
                         <td>${card.answer}</td>
                     </tr>

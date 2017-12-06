@@ -52,6 +52,7 @@ public class MyController {
     List<Card> cardListToAdd;
     List<SchoolClass> schoolClassList;
     Deck tempDeck;
+    String tempDeckid;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String viewIndex(Model model) {
@@ -272,7 +273,8 @@ public class MyController {
     }
 
     public String showDeckCreationSuccess(Model model) {
-        model.addAttribute("message", tempDeck.getDeckname() + " was created!");
+        model.addAttribute("deck", tempDeck);
+        model.addAttribute("cardList", cardListToAdd);        
         return "deckCreated";
     }
 

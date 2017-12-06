@@ -18,9 +18,20 @@
                 position: absolute;
                 width: 100%;
             }
+            .bannerPicture {
+                width: 1700px;
+                height: 360px;
+            }
+            .centered {
+                position: absolute;
+                top: 20%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 100%;
+            }
         </style>
     </head>
-
+    
     <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -43,6 +54,13 @@
             </ul>
         </div>
     </nav>
+    <div style="margin-top: 30px;"></div>
+
+<div class="container">
+  <img class="bannerPicture" src="<c:url value="/resources/img/myFlashCardBanner.jpg" />" alt="bannerPic" style="width:100%;">
+  <div class="centered"><h1>My Flash Card</h1></div>
+</div>
+
 
     <main role="main" class="container">
         <h2>All Decks</h2>
