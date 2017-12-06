@@ -261,7 +261,7 @@ public class MyController {
             List<Deck> tempList = deckStore.getDeckByUseridAndClassidAndDeckname(tempDeck.getUserid(), tempDeck.getClassid(), tempDeck.getDeckname());
             Deck temp = tempList.get(0);
             for (Card card : cardListToAdd) {
-                card.setId(temp.getId());
+                card.setDeckid(temp.getId());
                 cardAPI.postCard(card);
             }
             return this.showDeckCreationSuccess(model);
