@@ -259,10 +259,18 @@ public class MyController {
     public String finalizeDeck(Model model) {
         if (cardListToAdd.size() > 0) {
             deckAPI.postDeck(tempDeck);
-            List<Deck> tempList = deckStore.getDeckByUseridAndClassidAndDeckname(tempDeck.getUserid(), tempDeck.getClassid(), tempDeck.getDeckname());
-            Deck temp = tempList.get(0);
+            List<Deck> tempList = deckStore.getAllDecks();
+            Iterator<Deck> it = tempList.iterator();
+            Deck anotherTempDeck;
+            while (it.hasNext()) {
+                anotherTempDeck = it.next();
+                // checks if three colums of data are same as identification.
+                if (tempDeck.getDeckname().equals(anotherTempDeck.getDeckname()) && tempDeck.getClassid().equals(anotherTempDeck.getClassid()) && tempDeck.getUserid().equals(anotherTempDeck.getUserid())) {
+                    tempDeck = anotherTempDeck;
+                }
+            }
             for (Card card : cardListToAdd) {
-                card.setDeckid(temp.getId());
+                card.setDeckid(tempDeck.getId());
                 cardAPI.postCard(card);
             }
             return this.showDeckCreationSuccess(model);
