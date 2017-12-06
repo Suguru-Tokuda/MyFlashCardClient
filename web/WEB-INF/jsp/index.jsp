@@ -59,20 +59,13 @@
                         <td>${deck.deckname}</td>
                         <td><input type="submit" class="btn btn-default" value="View Deck" formaction="${pageContext.request.contextPath}/viewDeckDetails/${deck.id}" ></input></td>
                     </tr>
-
-
                     <c:set var="count" value="${count + 1}" scope="page"/>   
                 </c:forEach>
-
-
-
             </table>
         </form>
     </main>
     <footer class="container-fluid bg-4 text-center">
-        <p>Bootstrap Theme Made By <a href="https://www.w3schools.com">www.w3schools.com</a></p> 
+        <p>MyFlashCard.com <a href="https://www.w3schools.com">MyFlashCard.com</a></p> 
     </footer>
-
-
 </body>
 </html>

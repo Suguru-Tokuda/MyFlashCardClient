@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -51,9 +52,9 @@
                         <div class="form-grup">
                             <h3>Class List:</h3>
                             <div style="margin-top: 35px;"></div>
-                            <select class="form-control" id="classList">
+                            <select class="form-control" id="classList" name="classid" >
                                 <c:forEach var="schoolClass" items="${schoolClassList}">
-                                    <option>${schoolClass.classnumber}: ${schoolClass.classname}</option>
+                                    <option value="${schoolClass.id}">${schoolClass.classnumber}: ${schoolClass.classname}</option>
                                 </c:forEach>
                             </select>
                             <br>
@@ -64,7 +65,10 @@
                                 <label class="control-label">Class Name:</label>
                                 <input type="text" class="form-control" name="classname" />
                                 <div style="margin-top: 20px;"></div>
-                                <input type="submit" class="btn btn-primary" formaction="${pageContext.request.contextPath}/addClass/" />
+                                <input type="submit" class="btn btn-primary" formaction="${pageContext.request.contextPath}/addClass/" value="Add Class" />
+                                <div class="form-group" style="margin-top: 20px;">
+                                    <label class="control-label danger">${message}</label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -73,7 +77,9 @@
                             <h3>Deck Information:</h3>
                             <div class="form-group">
                                 <label class="control-label">Deck Name:</label>
-                                <input type="text" class="form-control" name="classnumber" />
+                                <input type="text" class="form-control" name="deckname" />
+                                <div style="margin-top: 20px;"></div>
+                                <input type="submit" class="btn btn-primary" formaction="${pageContext.request.contextPath}/doAddDeck" value="Create Deck" />
                             </div>
                         </div>
                     </div>
@@ -81,9 +87,7 @@
         </form>
     </main>
     <footer class="container-fluid bg-4 text-center">
-        <p>Bootstrap Theme Made By <a href="https://www.w3schools.com">www.w3schools.com</a></p> 
+        <p>MyFlashCard.com <a href="https://www.w3schools.com">MyFlashCard.com</a></p> 
     </footer>
-
-
 </body>
 </html>

@@ -51,6 +51,7 @@ public class MyController {
     List<Card> cardList;
     List<Card> cardListToAdd = new ArrayList<>();
     List<SchoolClass> schoolClassList;
+    Deck tempDeck;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String viewIndex(Model model) {
@@ -86,59 +87,98 @@ public class MyController {
 
         schoolClassList = schoolClassStore.getAllSchoolClasses();
         Collections.sort(schoolClassList, new Comparator<SchoolClass>() {
-           public int compare(SchoolClass sc1, SchoolClass sc2) {
-               return sc1.getClassnumber().compareTo(sc2.getClassnumber());
-           } 
+            public int compare(SchoolClass sc1, SchoolClass sc2) {
+                return sc1.getClassnumber().compareTo(sc2.getClassnumber());
+            }
         });
 
-    model.addAttribute (
-    "schoolClassList", schoolClassList);
-                
+        model.addAttribute("schoolClassList", schoolClassList);
+        return "addDeck";
+    }
 
-return "addDeck";
-    }
-    
     @RequestMapping(value = "/addClass", method = RequestMethod.POST)
-        public String postClass(@RequestParam("classname") String classname, @RequestParam("classnumber") String classnumber) {
-            
-            
-        
-        SchoolClass tempClass = new SchoolClass(classnumber.toUpperCase(), classname.toUpperCase());
-        if (schoolClassAPI.postClass(tempClass)) {
-            return "somewhere";
+    public String postClass(@RequestParam("classname") String classname, @RequestParam("classnumber") String classnumber, Model model) {
+        String message = "";
+        if (!classname.isEmpty() && !classnumber.isEmpty()) {
+            classnumber = classnumber.replaceAll(",", "").toUpperCase();
+
+            String[] tempArray = classname.split(" ");
+            String classnameToSend = "";
+            for (String s : tempArray) {
+                classnameToSend += s.substring(0, 1).toUpperCase() + s.substring(1) + " ";
+            }
+            classnameToSend = classnameToSend.trim();
+
+            SchoolClass tempClass = new SchoolClass(classnumber, classnameToSend);
+            if (schoolClassAPI.postClass(tempClass)) {
+                message = "Class Added Successfully";
+            } else {
+                message = "There was an error in adding a class";
+            }
         } else {
-            return "somewhereelse";
+            message = "Fill Class number and name";
         }
+
+        schoolClassList = schoolClassStore.getAllSchoolClasses();
+        Collections.sort(schoolClassList, new Comparator<SchoolClass>() {
+            public int compare(SchoolClass sc1, SchoolClass sc2) {
+                return sc1.getClassnumber().compareTo(sc2.getClassnumber());
+            }
+        });
+        model.addAttribute("message", message);
+        model.addAttribute("schoolClassList", schoolClassList);
+        return "addDeck";
     }
-    
+
     @RequestMapping(value = "/doAddDeck", method = RequestMethod.POST)
-        public String postDeck(@RequestParam("deckname") String deckname, @RequestParam("classid") String classid, @RequestParam("userid") String userid) {
-        Deck tempDeck = new Deck(deckname, classid, userid);
-        if (deckAPI.postDeck(tempDeck)) {
-            return "somewhere";
+    public String createTempDeck(@RequestParam("deckname") String deckname, @RequestParam("classid") String classid, Model model) {
+        String userid = "1";
+        System.out.println("Classid: " + classid);
+
+        if (deckname != null) {
+            tempDeck = new Deck(deckname, classid, userid);
+            if (tempDeck != null) {
+                return "addCards";
+            } else {
+                schoolClassList = schoolClassStore.getAllSchoolClasses();
+                Collections.sort(schoolClassList, new Comparator<SchoolClass>() {
+                    public int compare(SchoolClass sc1, SchoolClass sc2) {
+                        return sc1.getClassnumber().compareTo(sc2.getClassnumber());
+                    }
+                });
+                model.addAttribute("message", "Error in crearing a deck");
+                return "addDeck";
+            }
         } else {
-            return "somewhereelse";
+            model.addAttribute("message", "Enter a deckname");
+            schoolClassList = schoolClassStore.getAllSchoolClasses();
+            Collections.sort(schoolClassList, new Comparator<SchoolClass>() {
+                public int compare(SchoolClass sc1, SchoolClass sc2) {
+                    return sc1.getClassnumber().compareTo(sc2.getClassnumber());
+                }
+            });
+            return "addDeck";
         }
     }
-    
+
     @RequestMapping(value = "/addCard", method = RequestMethod.POST)
-        public String addCardToList(@RequestParam("question") String question, @RequestParam("answer") String answer, @RequestParam("deckid") String deckid) {
+    public String addCardToList(@RequestParam("question") String question, @RequestParam("answer") String answer, @RequestParam("deckid") String deckid) {
         int priority = cardListToAdd.size() + 1;
         cardListToAdd.add(new Card(question, answer, deckid, priority));
-        
+
         return "somewhere";
     }
-    
+
     @RequestMapping(value = "/finishAddingCards", method = RequestMethod.POST)
-        public String postCards() {
+    public String postCards() {
         if (cardListToAdd.size() != 0) {
             for (Card card : cardListToAdd) {
-                cardAPI.postCard(card);   
+                cardAPI.postCard(card);
             }
             return "somewhere";
         } else {
             return "unsuccessful";
-        }     
+        }
     }
-    
+
 }
