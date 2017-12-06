@@ -178,7 +178,7 @@ public class MyController {
     @RequestMapping(value = "/doAddCard", method = RequestMethod.POST)
     public String addCardToList(@RequestParam("question") String question, @RequestParam("answer") String answer, Model model) {
         int priority = cardListToAdd.size() + 1;
-        if (!question.isEmpty() && !answer.isEmpty()) {
+        if (!question.isEmpty() || !answer.isEmpty()) {
             if (tempDeck != null) {
                 String deckid = tempDeck.getId();
                 cardListToAdd.add(new Card(question.trim(), answer.trim(), deckid, priority));
