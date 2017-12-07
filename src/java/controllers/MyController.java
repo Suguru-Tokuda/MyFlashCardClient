@@ -265,7 +265,7 @@ public class MyController {
             while (it.hasNext()) {
                 anotherTempDeck = it.next();
                 // checks if three colums of data are same as identification.
-                if (tempDeck.getDeckname().equals(anotherTempDeck.getDeckname()) && tempDeck.getClassid().equals(anotherTempDeck.getClassid()) && tempDeck.getUserid().equals(anotherTempDeck.getUserid())) {
+                if (tempDeck.getDeckname().toLowerCase().equals(anotherTempDeck.getDeckname().toLowerCase()) && tempDeck.getClassid().equals(anotherTempDeck.getClassid()) && tempDeck.getUserid().equals(anotherTempDeck.getUserid())) {
                     tempDeck = anotherTempDeck;
                 }
             }
