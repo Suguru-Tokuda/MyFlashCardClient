@@ -87,5 +87,15 @@ public class DeckAPI {
                .get(String.class);
         return response;
     }
+    
+    public String getDecksByKeyword(String keyword) {
+        Client client = ClientBuilder.newClient();
+        String requestURL = BASE_URL + "findByKeyword/" + keyword;
+        String response = client
+               .target(requestURL)
+               .request(MediaType.APPLICATION_JSON)
+               .get(String.class);
+        return response;
+    }
 
 }

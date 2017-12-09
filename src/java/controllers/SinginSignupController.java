@@ -50,6 +50,9 @@ public class SinginSignupController {
 
     @RequestMapping(value = "/processsignup", method = RequestMethod.POST)
     public String processSignup(@RequestParam("username") String username, @RequestParam("email") String email, @RequestParam("signupPassword") String password, @RequestParam("confPassword") String confPassword, Model model) {
+        username = username.trim();
+        email = email.trim();
+        
         String signupErrorMsg = "";
         boolean isFilled = !username.isEmpty() && !email.isEmpty() && !password.isEmpty() && !confPassword.isEmpty();
 

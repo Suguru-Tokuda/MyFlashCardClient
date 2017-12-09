@@ -58,9 +58,9 @@ public class MyController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String viewIndex(Model model, HttpSession session) {
         deckList = deckStore.getAllDecks();
-        
+
         String username = "";
-        
+
         if (session.getAttribute("username") != null) {
             username = (String) session.getAttribute("username");
         }
@@ -71,7 +71,7 @@ public class MyController {
     }
 
     @RequestMapping(value = "/viewDeckDetails/{id}", method = RequestMethod.GET)
-    public String viewDeckDetails(@PathVariable("id") String deckid, Model model) {
+    public String viewDeckDetails(@PathVariable("id") String deckid, Model model, HttpSession session) {
 
         cardList = cardStore.getCardsByDeckid(deckid);
         Iterator<Deck> it = deckList.iterator();
@@ -83,6 +83,14 @@ public class MyController {
                 deckName = tempDeck.getDeckname();
             }
         }
+
+        String username = "";
+
+        if (session.getAttribute("username") != null) {
+            username = (String) session.getAttribute("username");
+        }
+        model.addAttribute("username", username);
+
         model.addAttribute("deckName", deckName);
         model.addAttribute("cardList", cardList);
 
@@ -90,7 +98,7 @@ public class MyController {
     }
 
     @RequestMapping(value = "/addDeck", method = RequestMethod.GET)
-    public String viewAddDeckPage(Model model) {
+    public String viewAddDeckPage(Model model, HttpSession session) {
 
         schoolClassList = schoolClassStore.getAllSchoolClasses();
         Collections.sort(schoolClassList, new Comparator<SchoolClass>() {
@@ -98,13 +106,19 @@ public class MyController {
                 return sc1.getClassnumber().compareTo(sc2.getClassnumber());
             }
         });
+        String username = "";
+
+        if (session.getAttribute("username") != null) {
+            username = (String) session.getAttribute("username");
+        }
+        model.addAttribute("username", username);
 
         model.addAttribute("schoolClassList", schoolClassList);
         return "addDeck";
     }
 
     @RequestMapping(value = "/addClass", method = RequestMethod.POST)
-    public String postClass(@RequestParam("classname") String classname, @RequestParam("classnumber") String classnumber, Model model) {
+    public String postClass(@RequestParam("classname") String classname, @RequestParam("classnumber") String classnumber, Model model, HttpSession session) {
         String message = "";
         if (!classname.isEmpty() && !classnumber.isEmpty()) {
             classnumber = classnumber.replaceAll(",", "").toUpperCase();
@@ -132,12 +146,19 @@ public class MyController {
                 return sc1.getClassnumber().compareTo(sc2.getClassnumber());
             }
         });
+
+        String username = "";
+
+        if (session.getAttribute("username") != null) {
+            username = (String) session.getAttribute("username");
+        }
+        model.addAttribute("username", username);
         model.addAttribute("message", message);
         model.addAttribute("schoolClassList", schoolClassList);
         return "addDeck";
     }
 
-    public String showDeckCreationPage(Model model) {
+    public String showDeckCreationPage(Model model, HttpSession session) {
         schoolClassList = schoolClassStore.getAllSchoolClasses();
         Collections.sort(schoolClassList, new Comparator<SchoolClass>() {
             public int compare(SchoolClass sc1, SchoolClass sc2) {
@@ -145,19 +166,25 @@ public class MyController {
             }
         });
 
+        String username = "";
+
+        if (session.getAttribute("username") != null) {
+            username = (String) session.getAttribute("username");
+        }
+        model.addAttribute("username", username);
         model.addAttribute("schoolClassList", schoolClassList);
         return "addDeck";
     }
 
     @RequestMapping(value = "/doAddDeck", method = RequestMethod.POST)
-    public String createTempDeck(@RequestParam("deckname") String deckname, @RequestParam("classid") String classid, Model model) {
+    public String createTempDeck(@RequestParam("deckname") String deckname, @RequestParam("classid") String classid, Model model, HttpSession session) {
         deckname = deckname.substring(0, 1).toUpperCase() + deckname.substring(1);
         String userid = "1";
         System.out.println("Classid: " + classid);
         if (!deckname.isEmpty()) {
             tempDeck = new Deck(deckname, classid, userid);
             if (tempDeck != null) {
-                return this.showAddCardPage(model);
+                return this.showAddCardPage(model, session);
             } else {
                 schoolClassList = schoolClassStore.getAllSchoolClasses();
                 Collections.sort(schoolClassList, new Comparator<SchoolClass>() {
@@ -183,7 +210,7 @@ public class MyController {
     }
 
     @RequestMapping(value = "/doAddCard", method = RequestMethod.POST)
-    public String addCardToList(@RequestParam("question") String question, @RequestParam("answer") String answer, Model model) {
+    public String addCardToList(@RequestParam("question") String question, @RequestParam("answer") String answer, Model model, HttpSession session) {
         int priority = cardListToAdd.size() + 1;
         if (!question.isEmpty() || !answer.isEmpty()) {
             if (tempDeck != null) {
@@ -207,7 +234,7 @@ public class MyController {
                 model.addAttribute("classnumber", classnumber);
                 model.addAttribute("classname", classname);
             } else {
-                return showDeckCreationPage(model);
+                return showDeckCreationPage(model, session);
             }
             if (cardListToAdd.size() > 0) {
                 model.addAttribute("cardList", cardListToAdd);
@@ -218,7 +245,7 @@ public class MyController {
         return "addCards";
     }
 
-    public String showAddCardPage(Model model) {
+    public String showAddCardPage(Model model, HttpSession session) {
         cardListToAdd = new ArrayList<>();
         String classid = tempDeck.getClassid();
         schoolClassList = schoolClassStore.getAllSchoolClasses();
@@ -233,6 +260,12 @@ public class MyController {
                 classname = temp.getClassname();
             }
         }
+        String username = "";
+
+        if (session.getAttribute("username") != null) {
+            username = (String) session.getAttribute("username");
+        }
+        model.addAttribute("username", username);
         model.addAttribute("classnumber", classnumber);
         model.addAttribute("classname", classname);
         model.addAttribute("deck", tempDeck);
@@ -240,7 +273,7 @@ public class MyController {
         return "addCards";
     }
 
-    public String reloadAddCardPage(Model model) {
+    public String reloadAddCardPage(Model model, HttpSession session) {
         String classid = tempDeck.getClassid();
         schoolClassList = schoolClassStore.getAllSchoolClasses();
         Iterator<SchoolClass> it = schoolClassList.iterator();
@@ -254,6 +287,12 @@ public class MyController {
                 classname = temp.getClassname();
             }
         }
+        String username = "";
+
+        if (session.getAttribute("username") != null) {
+            username = (String) session.getAttribute("username");
+        }
+        model.addAttribute("username", username);
         model.addAttribute("classnumber", classnumber);
         model.addAttribute("classname", classname);
         model.addAttribute("deck", tempDeck);
@@ -262,7 +301,7 @@ public class MyController {
     }
 
     @RequestMapping(value = "/finalizeDeck", method = RequestMethod.POST)
-    public String finalizeDeck(Model model) {
+    public String finalizeDeck(Model model, HttpSession session) {
         if (cardListToAdd.size() > 0) {
             deckAPI.postDeck(tempDeck);
             List<Deck> tempList = deckStore.getAllDecks();
@@ -279,25 +318,49 @@ public class MyController {
                 card.setDeckid(tempDeck.getId());
                 cardAPI.postCard(card);
             }
-            return this.showDeckCreationSuccess(model);
+            return this.showDeckCreationSuccess(model, session);
         } else {
             model.addAttribute("message", "Need cards to finalize your deck.");
-            return this.reloadAddCardPage(model);
+            return this.reloadAddCardPage(model, session);
         }
     }
 
-    public String showDeckCreationSuccess(Model model) {
+    public String showDeckCreationSuccess(Model model, HttpSession session) {
         model.addAttribute("deck", tempDeck);
-        model.addAttribute("cardList", cardListToAdd);        
+        model.addAttribute("cardList", cardListToAdd);
+        String username = "";
+
+        if (session.getAttribute("username") != null) {
+            username = (String) session.getAttribute("username");
+        }
+        model.addAttribute("username", username);
+
         return "deckCreated";
     }
 
     @RequestMapping(value = "/removeCard/{index}", method = RequestMethod.GET)
-    public String removeCard(@PathVariable("index") int index, Model model) {
+    public String removeCard(@PathVariable("index") int index, Model model, HttpSession session) {
         if (cardListToAdd.size() > 0) {
             cardListToAdd.remove(index);
         }
-        return this.reloadAddCardPage(model);
+        return this.reloadAddCardPage(model, session);
     }
     
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public String search(@RequestParam("keyword") String keyword, Model model, HttpSession session) {
+        keyword = keyword.trim();
+        
+        deckList = deckStore.getDecksByKeyword(keyword);
+        
+        if (deckList != null || deckList.isEmpty()) {
+            model.addAttribute("msg", "0 decks found.");
+            deckList = new ArrayList<Deck>();
+            model.addAttribute("deckList", deckList);
+        } else {
+            model.addAttribute("deckList", deckList);
+            model.addAttribute("msg", deckList.size() + " decks found");
+        }
+        return "searchResults";
+    }
+
 }
