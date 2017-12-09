@@ -46,7 +46,6 @@
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search" name="keyword">
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
                 <input type="submit" class="btn btn-default" value="Search" formaction="${pageContext.request.contextPath}/search"/>
             </form>
             <c:choose>

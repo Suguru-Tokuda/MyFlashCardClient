@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCYTPE templates-definitions PUBLIC
+        "-//Apatche Software Foundation//Templates Configuration 2.0//EN"
+        >
+<templates-definitions>
+    <definition name="navbar" template="/WEB-INF/jsp/templates/navbar.jsp">
+    </definition>
+
+</templates-definitions>
+<root>
+    
+</root>

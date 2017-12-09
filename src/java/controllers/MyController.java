@@ -352,7 +352,7 @@ public class MyController {
         
         deckList = deckStore.getDecksByKeyword(keyword);
         
-        if (deckList != null || deckList.isEmpty()) {
+        if (deckList == null || deckList.isEmpty()) {
             model.addAttribute("msg", "0 decks found.");
             deckList = new ArrayList<Deck>();
             model.addAttribute("deckList", deckList);

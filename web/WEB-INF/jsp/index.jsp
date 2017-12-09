@@ -42,11 +42,11 @@
                 <li class="active"><a href="${pageContext.request.contextPath}/">Home</a></li>
                 <li><a href="${pageContext.request.contextPath}/addDeck">Add a Deck</a></li>
             </ul>
-            <form class="navbar-form navbar-left">
+            <form method="post" class="navbar-form navbar-left">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
+                    <input type="text" class="form-control" placeholder="Search" name="keyword">
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
+                <input type="submit" class="btn btn-default" value="Search" formaction="${pageContext.request.contextPath}/search"/>
             </form>
             <c:choose>
                 <c:when test="${empty username}">
