@@ -68,7 +68,7 @@ public class UserAPI {
     
     public String getUserForUsername(String username) {
         Client client = ClientBuilder.newClient();
-        String requestURL = BASE_URL + ;
+        String requestURL = BASE_URL + "findByUsername/" + username;
         String response = client
                 .target(requestURL)
                 .request(MediaType.APPLICATION_JSON)

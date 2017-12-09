@@ -45,7 +45,7 @@ public class SchoolClassAPI {
         return true;
     }
     
-    public boolean deleteClass(String id) {
+    public boolean deleteSchoolClass(String id) {
         Client client = ClientBuilder.newClient();
         String deleteURL = BASE_URL + id;
         String response = client
@@ -56,7 +56,7 @@ public class SchoolClassAPI {
         return true;  
     }
     
-    public String getAllClasses() {
+    public String getAllSchoolClasses() {
         Client client = ClientBuilder.newClient();
         String requestURL = BASE_URL;
         
@@ -67,8 +67,8 @@ public class SchoolClassAPI {
         return response;
     }
     
-    public String getClassesOrderByClassnum() {
-                Client client = ClientBuilder.newClient();
+    public String getSchoolClassesOrderByClassnum() {
+        Client client = ClientBuilder.newClient();
         String requestURL = BASE_URL + "allClassesOrderByClassnum/";
         
         String response = client
@@ -76,6 +76,16 @@ public class SchoolClassAPI {
                 .request(MediaType.APPLICATION_JSON)
                 .get(String.class);
         return response;
+    }
+    
+    public String getSchoolClassById(String classid) {
+        Client client = ClientBuilder.newClient();
+        String requestURL = BASE_URL + classid;        
+        String response = client
+                .target(requestURL)
+                .request(MediaType.APPLICATION_JSON)
+                .get(String.class);
+        return response; 
     }
     
 }

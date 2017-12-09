@@ -7,12 +7,14 @@ package controllers;
 
 import api.UserAPI;
 import api.UserStore;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.http.HttpSession;
 import models.User;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,10 +51,10 @@ public class SinginSignupController {
     }
 
     @RequestMapping(value = "/processsignup", method = RequestMethod.POST)
-    public String processSignup(@RequestParam("username") String username, @RequestParam("email") String email, @RequestParam("signupPassword") String password, @RequestParam("confPassword") String confPassword, Model model) {
+    public String processSignup(@RequestParam("username") String username, @RequestParam("email") String email, @RequestParam("signupPassword") String password, @RequestParam("confPassword") String confPassword, Model model) throws ParseException, IOException {
         username = username.trim();
         email = email.trim();
-        
+
         String signupErrorMsg = "";
         boolean isFilled = !username.isEmpty() && !email.isEmpty() && !password.isEmpty() && !confPassword.isEmpty();
 
@@ -95,7 +97,7 @@ public class SinginSignupController {
     }
 
     @RequestMapping(value = "/processsignin", method = RequestMethod.POST)
-    public String processSignin(@RequestParam("userid") String userid, @RequestParam("signinPassword") String password, Model model, HttpSession session) {
+    public String processSignin(@RequestParam("userid") String userid, @RequestParam("signinPassword") String password, Model model, HttpSession session) throws ParseException, IOException {
         if (session == null) {
             System.out.println("session is null");
         } else {
@@ -129,7 +131,7 @@ public class SinginSignupController {
         return matcher.find();
     }
 
-    private boolean isGoodEmail(String email) {
+    private boolean isGoodEmail(String email) throws ParseException, IOException {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
         // also needs to check if the email is in use already.
         tempUserList = userStore.getAllUsers();
@@ -160,7 +162,7 @@ public class SinginSignupController {
         return matcher.find() && retVal;
     }
 
-    private boolean isLoggedin(String userid, String password) {
+    private boolean isLoggedin(String userid, String password) throws ParseException, IOException {
         tempUserList = userStore.getAllUsers();
         Iterator<User> it = tempUserList.iterator();
         boolean emailMatches = false;
@@ -197,4 +199,78 @@ public class SinginSignupController {
         return "redirect:/";
     }
 
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    private String getProfile(Model model, HttpSession session) throws ParseException, IOException {
+        if (session.getAttribute("username") == null) {
+            return "redirect:/";
+        } else {
+            String username = (String) session.getAttribute("username");
+            tempUser = userStore.getUserForUsername(username);
+            model.addAttribute("user", tempUser);
+            return "profile";
+        }
+    }
+
+    @RequestMapping(value = "/changeuserinfo", method = RequestMethod.POST)
+    public String changeUserInfo(@RequestParam("username") String username, @RequestParam("email") String email, Model model, HttpSession session) throws ParseException, IOException {
+        if (session.getAttribute("username") == null) {
+            return "redirect:/";
+        } else {
+            if (username.isEmpty() && email.isEmpty()) {
+                model.addAttribute("errorMsg", "Fill either username or email");
+            } else {
+                boolean isGoodEmail = this.isGoodEmail(email);
+                if (!isGoodEmail) {
+                    model.addAttribute("userInfoMsg", "Email is invalid");
+                    return this.getProfile(model, session);
+                }
+                tempUser = userStore.getUserForUsername(username);
+                if (tempUser.getUsername().equalsIgnoreCase(username) && tempUser.getEmail().equalsIgnoreCase(email)) {
+                    model.addAttribute("userInfoMsg", "No change in both fields.");
+                    return this.getProfile(model, session);
+                }
+                if (username.isEmpty()) {
+                    tempUser.setEmail(email.toLowerCase());
+                } else if (email.isEmpty()) {
+                    tempUser.setUsername(username.toLowerCase());
+                } else if (!email.isEmpty() && !username.isEmpty()) {
+                    tempUser.setEmail(email.toLowerCase());
+                    tempUser.setUsername(username.toLowerCase());
+                }
+                userAPI.putUser(tempUser, tempUser.getId());
+                model.addAttribute("userInfoMsg", "User info updated");
+            }
+        }
+        model.addAttribute("username", username);
+        return this.getProfile(model, session);
+    }
+
+    @RequestMapping(value = "/changepassword", method = RequestMethod.POST)
+    public String changePassword(@RequestParam("oldPassword") String oldPassword, @RequestParam("newPassword") String newPassword, @RequestParam("newConfPassword") String newConfPassword, Model model, HttpSession session) throws ParseException, IOException {
+        String username = null;
+        if (session.getAttribute("username") == null) {
+            return "redirect:/";
+        } else {
+            if (oldPassword.isEmpty() || newPassword.isEmpty() || newConfPassword.isEmpty()) {
+                model.addAttribute("passMsg", "Fill password blanks");
+            } else {
+                username = (String) session.getAttribute("username");
+                tempUser = userStore.getUserForUsername(username);
+                if (!tempUser.getPassword().equals(oldPassword)) {
+                    model.addAttribute("passMsg", "Old password doesn't match");
+                } else {
+                    if (!newPassword.equals(newConfPassword)) {
+                        model.addAttribute("passMsg", "New password and confirmation password do not match");
+                    } else {
+                        tempUser.setPassword(newPassword);
+                        userAPI.putUser(tempUser, tempUser.getId());
+                        model.addAttribute("passMsg", "Updated password");
+                    }
+                }
+            }
+            model.addAttribute("username", username);
+            return this.getProfile(model, session);
+        }
+    }
+    
 }

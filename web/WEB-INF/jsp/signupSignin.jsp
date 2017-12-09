@@ -61,6 +61,7 @@
             </c:choose>
         </div>
     </nav>
+    <div style="margin-top: 50px;"></div>
     <main>
         <form method="post">
             <div class="container">

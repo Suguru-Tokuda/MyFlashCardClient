@@ -40,6 +40,7 @@
             </div>
             <ul class="nav navbar-nav">
                 <li class="active"><a href="${pageContext.request.contextPath}/">Home</a></li>
+                <li class=""><a href="${pageContext.request.contextPath}/classlist">Class List</a></li>
                     <c:if test="${!empty username}">
                     <li><a href="${pageContext.request.contextPath}/addDeck">Add a Deck</a></li>
                     </c:if>
@@ -75,7 +76,7 @@
     <div style="margin-top: 30px;"></div>
 
     <main role="main" class="container">
-        <h2>All Decks</h2>
+        <h2>${headerMsg}</h2>
         <form method="get">
             <table class="table table-striped">
                 <tr>

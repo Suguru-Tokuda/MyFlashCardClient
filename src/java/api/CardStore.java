@@ -5,6 +5,7 @@
  */
 package api;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import models.Card;
@@ -12,6 +13,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
+import org.json.simple.parser.ParseException;
 
 /**
  * This class process JSON String into objects.
@@ -30,7 +32,7 @@ public class CardStore {
     String jsonString;
     JSONArray jsonArray;
 
-    public List<Card> getCardsByDeckid(String deckid) {
+    public List<Card> getCardsByDeckid(String deckid) throws ParseException, IOException {
 
         jsonString = cardAPI.getCardByDeckid(deckid);
 
@@ -44,7 +46,10 @@ public class CardStore {
                 tempCardList.add(tempCard);
             }
         } catch (Exception ex) {
-            System.out.println(ex);
+            JSONObject jsonObject = (JSONObject) jParser.parse(jsonString);
+            System.out.println(jsonObject);
+            tempCard = mapper.readValue(jsonObject.toString(), Card.class);
+            tempCardList.add(tempCard);
         }
 
         return tempCardList;

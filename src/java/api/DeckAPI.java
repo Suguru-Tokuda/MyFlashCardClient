@@ -97,5 +97,15 @@ public class DeckAPI {
                .get(String.class);
         return response;
     }
+    
+    public String getDecksByUsername(String username) {
+        Client client = ClientBuilder.newClient();
+        String requestURL = BASE_URL + "findByUsername/" + username;
+        String response = client
+               .target(requestURL)
+               .request(MediaType.APPLICATION_JSON)
+               .get(String.class);
+        return response;
+    }
 
 }

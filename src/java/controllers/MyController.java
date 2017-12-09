@@ -11,6 +11,8 @@ import api.DeckAPI;
 import api.DeckStore;
 import api.SchoolClassAPI;
 import api.SchoolClassStore;
+import api.UserStore;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -22,6 +24,7 @@ import models.Card;
 import models.Deck;
 import models.SchoolClass;
 import models.User;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,16 +52,19 @@ public class MyController {
     DeckAPI deckAPI;
     @Autowired
     SchoolClassAPI schoolClassAPI;
+    @Autowired
+    UserStore userStore;
     List<Deck> deckList;
     List<Card> cardList;
     List<Card> cardListToAdd;
     List<SchoolClass> schoolClassList;
-    List<User> userList;
     Deck tempDeck;
     String tempDeckid;
+    User tempUser;
+    SchoolClass tempSchoolClass;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String viewIndex(Model model, HttpSession session) {
+    public String viewIndex(Model model, HttpSession session) throws IOException, ParseException {
         deckList = deckStore.getAllDecks();
 
         String username = "";
@@ -73,7 +79,7 @@ public class MyController {
     }
 
     @RequestMapping(value = "/viewDeckDetails/{id}", method = RequestMethod.GET)
-    public String viewDeckDetails(@PathVariable("id") String deckid, Model model, HttpSession session) {
+    public String viewDeckDetails(@PathVariable("id") String deckid, Model model, HttpSession session) throws ParseException, IOException {
 
         cardList = cardStore.getCardsByDeckid(deckid);
         Iterator<Deck> it = deckList.iterator();
@@ -100,7 +106,7 @@ public class MyController {
     }
 
     @RequestMapping(value = "/addDeck", method = RequestMethod.GET)
-    public String viewAddDeckPage(Model model, HttpSession session) {
+    public String viewAddDeckPage(Model model, HttpSession session) throws IOException, ParseException {
 
         schoolClassList = schoolClassStore.getAllSchoolClasses();
         Collections.sort(schoolClassList, new Comparator<SchoolClass>() {
@@ -120,7 +126,7 @@ public class MyController {
     }
 
     @RequestMapping(value = "/addClass", method = RequestMethod.POST)
-    public String postClass(@RequestParam("classname") String classname, @RequestParam("classnumber") String classnumber, Model model, HttpSession session) {
+    public String postClass(@RequestParam("classname") String classname, @RequestParam("classnumber") String classnumber, Model model, HttpSession session) throws IOException, ParseException {
         String message = "";
         if (!classname.isEmpty() && !classnumber.isEmpty()) {
             classnumber = classnumber.replaceAll(",", "").toUpperCase();
@@ -160,7 +166,7 @@ public class MyController {
         return "addDeck";
     }
 
-    public String showDeckCreationPage(Model model, HttpSession session) {
+    public String showDeckCreationPage(Model model, HttpSession session) throws IOException, ParseException {
         schoolClassList = schoolClassStore.getAllSchoolClasses();
         Collections.sort(schoolClassList, new Comparator<SchoolClass>() {
             public int compare(SchoolClass sc1, SchoolClass sc2) {
@@ -179,7 +185,7 @@ public class MyController {
     }
 
     @RequestMapping(value = "/doAddDeck", method = RequestMethod.POST)
-    public String createTempDeck(@RequestParam("deckname") String deckname, @RequestParam("classid") String classid, Model model, HttpSession session) {
+    public String createTempDeck(@RequestParam("deckname") String deckname, @RequestParam("classid") String classid, Model model, HttpSession session) throws IOException, ParseException {
         deckname = deckname.substring(0, 1).toUpperCase() + deckname.substring(1);
         String userid = "1";
         System.out.println("Classid: " + classid);
@@ -212,7 +218,7 @@ public class MyController {
     }
 
     @RequestMapping(value = "/doAddCard", method = RequestMethod.POST)
-    public String addCardToList(@RequestParam("question") String question, @RequestParam("answer") String answer, Model model, HttpSession session) {
+    public String addCardToList(@RequestParam("question") String question, @RequestParam("answer") String answer, Model model, HttpSession session) throws IOException, ParseException {
         int priority = cardListToAdd.size() + 1;
         if (!question.isEmpty() || !answer.isEmpty()) {
             if (tempDeck != null) {
@@ -247,7 +253,7 @@ public class MyController {
         return "addCards";
     }
 
-    public String showAddCardPage(Model model, HttpSession session) {
+    public String showAddCardPage(Model model, HttpSession session) throws IOException, ParseException {
         cardListToAdd = new ArrayList<>();
         String classid = tempDeck.getClassid();
         schoolClassList = schoolClassStore.getAllSchoolClasses();
@@ -275,7 +281,7 @@ public class MyController {
         return "addCards";
     }
 
-    public String reloadAddCardPage(Model model, HttpSession session) {
+    public String reloadAddCardPage(Model model, HttpSession session) throws IOException, ParseException {
         String classid = tempDeck.getClassid();
         schoolClassList = schoolClassStore.getAllSchoolClasses();
         Iterator<SchoolClass> it = schoolClassList.iterator();
@@ -303,7 +309,7 @@ public class MyController {
     }
 
     @RequestMapping(value = "/finalizeDeck", method = RequestMethod.POST)
-    public String finalizeDeck(Model model, HttpSession session) {
+    public String finalizeDeck(Model model, HttpSession session) throws IOException, ParseException {
         if (cardListToAdd.size() > 0) {
             deckAPI.postDeck(tempDeck);
             List<Deck> tempList = deckStore.getAllDecks();
@@ -331,7 +337,6 @@ public class MyController {
         model.addAttribute("deck", tempDeck);
         model.addAttribute("cardList", cardListToAdd);
         String username = "";
-
         if (session.getAttribute("username") != null) {
             username = (String) session.getAttribute("username");
         }
@@ -341,19 +346,22 @@ public class MyController {
     }
 
     @RequestMapping(value = "/removeCard/{index}", method = RequestMethod.GET)
-    public String removeCard(@PathVariable("index") int index, Model model, HttpSession session) {
+    public String removeCard(@PathVariable("index") int index, Model model, HttpSession session) throws IOException, ParseException {
         if (cardListToAdd.size() > 0) {
             cardListToAdd.remove(index);
         }
+        String username = "";
+        if (session.getAttribute("username") != null) {
+            username = (String) session.getAttribute("username");
+        }
+        model.addAttribute("username", username);
         return this.reloadAddCardPage(model, session);
     }
     
     @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public String search(@RequestParam("keyword") String keyword, Model model, HttpSession session) {
+    public String search(@RequestParam("keyword") String keyword, Model model, HttpSession session) throws IOException, ParseException {
         keyword = keyword.trim();
-        
         deckList = deckStore.getDecksByKeyword(keyword);
-        
         if (deckList == null || deckList.isEmpty()) {
             model.addAttribute("msg", "0 decks found.");
             deckList = new ArrayList<Deck>();
@@ -362,17 +370,59 @@ public class MyController {
             model.addAttribute("deckList", deckList);
             model.addAttribute("msg", deckList.size() + " decks found");
         }
+        String username = "";
+        if (session.getAttribute("username") != null) {
+            username = (String) session.getAttribute("username");
+        }
+        model.addAttribute("username", username);
+        model.addAttribute("headerMsg", "Decks for \"" + keyword.trim() + "\"");
         return "searchResults";
     }
     
-    @RequestMapping(value = "/mydeck", method = RequestMethod.GET)
-    public String getMyDeck(Model model, HttpSession session) {
+    @RequestMapping(value = "/mydecks", method = RequestMethod.GET)
+    public String getMyDeck(Model model, HttpSession session) throws IOException, ParseException {
         String username = (String) session.getAttribute("username");
         if (username == null)  {
             return "redirect:/";
         }
-        userList = 
+        deckList = deckStore.getDecksByUsername(username);
+        model.addAttribute("message", deckList.size() + " decks found");
+        model.addAttribute("deckList", deckList);
+        model.addAttribute("username", username);
+        return "myDecks";
+    }
+    
+    @RequestMapping(value = "/classlist", method = RequestMethod.GET)
+    public String getClassList(Model model, HttpSession session) throws IOException, ParseException {
+        schoolClassList = schoolClassStore.getAllSchoolClasses();
+        Collections.sort(schoolClassList, new Comparator<SchoolClass>() {
+            public int compare(SchoolClass sc1, SchoolClass sc2) {
+                return sc1.getClassnumber().compareTo(sc2.getClassnumber());
+            }
+        });
         
+        String username = "";
+        if (session.getAttribute("username") != null) {
+            username = (String) session.getAttribute("username");
+        }
+        model.addAttribute("username", username);
+        model.addAttribute("classList", schoolClassList);
+        model.addAttribute("message", schoolClassList.size() + " classes found.");
+        return "schoolClassList";
+    }
+    
+    @RequestMapping(value = "/getdeck/{classid}", method = RequestMethod.GET)
+    public String getDecksForClass(@PathVariable("classid") String classid, Model model, HttpSession session) throws ParseException, IOException {
+        String username = "";
+        if (session.getAttribute("username") != null) {
+            username = (String) session.getAttribute("username");
+        }
+        tempSchoolClass = schoolClassStore.getClassById(classid);
+        deckList = deckStore.getDecksByClassid(classid);
+        model.addAttribute("deckList", deckList);
+        model.addAttribute("message", deckList.size() + " decks found.");
+        model.addAttribute("headerMsg", "Decks for " + tempSchoolClass.getClassnumber() + ": " + tempSchoolClass.getClassname());
+        return "searchResults";
     }
 
 }

@@ -1,6 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -19,10 +18,21 @@
                 position: absolute;
                 width: 100%;
             }
+            .bannerPicture {
+                width: 1700px;
+                height: 360px;
+            }
+            .centered {
+                position: absolute;
+                top: 20%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 100%;
+            }
         </style>
     </head>
-
     <body>
+
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -63,47 +73,38 @@
             </c:choose>
         </div>
     </nav>
-    <main>
-        <form method="post">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-grup">
-                            <h3>Class List:</h3>
-                            <div style="margin-top: 35px;"></div>
-                            <select class="form-control" id="classList" name="classid" >
-                                <c:forEach var="schoolClass" items="${schoolClassList}">
-                                    <option value="${schoolClass.id}">${schoolClass.classnumber}: ${schoolClass.classname}</option>
-                                </c:forEach>
-                            </select>
-                            <br>
-                            <div class="form-group">
-                                <p>Not in the list? Add it.</p>
-                                <label class="control-label">Class Number:</label>
-                                <input type="text" class="form-control" name="classnumber" />
-                                <label class="control-label">Class Name:</label>
-                                <input type="text" class="form-control" name="classname" />
-                                <div style="margin-top: 20px;"></div>
-                                <input type="submit" class="btn btn-primary" formaction="${pageContext.request.contextPath}/addClass/" value="Add Class" />
-                                <div class="form-group" style="margin-top: 20px;">
-                                    <label class="control-label danger">${message}</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-grup">
-                            <h3>Deck Information:</h3>
-                            <div class="form-group">
-                                <label class="control-label">Deck Name:</label>
-                                <input type="text" class="form-control" name="deckname" />
-                                <div style="margin-top: 20px;"></div>
-                                <input type="submit" class="btn btn-primary" formaction="${pageContext.request.contextPath}/doAddDeck" value="Create Deck" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </form>
+
+    <div style="margin-top: 50px;"></div>
+    <main role="main" class="container">
+        <h1>Profile</h1>
+        <div class="from-group col-md-4">
+            <form method="post">
+                <label class="control-label">Username:</label>
+                <input class="form-control" name="username" value="${user.username}"/>
+                <label class="control-label">Email:</label>
+                <input class="form-control" name="email" value="${user.email}"/>
+                <div style="margin-top: 20px;"></div>
+                <input type="submit" formaction="changeuserinfo" class="btn btn-primary" value="Change Username or Email" />
+                <br>
+                <div style="margin-top: 20px;"></div>
+                <label class="control-label">${userInfoMsg}</label>
+            </form>
+        </div>
+        <div class="form-group col-md-4">
+            <form method="post">
+                <label class="control-label">Old Password:</label>
+                <input class="form-control" type="password" name="oldPassword" />
+                <label class="control-label">New Password:</label>
+                <input class="form-control" type="password" name="newPassword" />
+                <label class="control-label">Confirm Password:</label>
+                <input class="form-control" type="password" name="newConfPassword"/>
+                <div style="margin-top: 20px;"></div>
+                <input type="submit" formaction="changepassword" class="btn btn-danger" value="Change Password" />
+                <br>
+                <div style="margin-top: 20px;"></div>
+                <label class="control-label">${passMsg}</label>
+            </form>
+        </div>
     </main>
     <footer class="container-fluid bg-4 text-center">
         <p>MyFlashCard.com <a href="https://www.w3schools.com">MyFlashCard.com</a></p> 

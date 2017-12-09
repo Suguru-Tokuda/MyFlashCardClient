@@ -5,6 +5,7 @@
  */
 package api;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import models.User;
@@ -12,6 +13,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -29,7 +31,7 @@ public class UserStore {
     String jsonString;
     JSONArray jsonArray;
     
-    public List<User> getAllUsers() {
+    public List<User> getAllUsers() throws ParseException, IOException {
         jsonString = userAPI.getAllUsers();
 
         mapper = new ObjectMapper();
@@ -42,13 +44,16 @@ public class UserStore {
                 tempUserList.add(tempUser);
             }
         } catch (Exception ex) {
-            System.out.println(ex);
+            JSONObject jsonObject = (JSONObject) jParser.parse(jsonString);
+            System.out.println(jsonObject);
+            tempUser = mapper.readValue(jsonObject.toString(), User.class);
+            tempUserList.add(tempUser);
         }
 
         return tempUserList;
     }
     
-    public User getUserForUsername(String username) {
+    public User getUserForUsername(String username) throws ParseException, IOException {
         jsonString = userAPI.getAllUsers();
 
         mapper = new ObjectMapper();
@@ -61,10 +66,13 @@ public class UserStore {
                 tempUserList.add(tempUser);
             }
         } catch (Exception ex) {
-            System.out.println(ex);
+            JSONObject jsonObject = (JSONObject) jParser.parse(jsonString);
+            System.out.println(jsonObject);
+            tempUser = mapper.readValue(jsonObject.toString(), User.class);
+            tempUserList.add(tempUser);
         }
 
-        return tempUserList;
+        return tempUserList.get(0);
     }
     
     

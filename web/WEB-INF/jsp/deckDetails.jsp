@@ -20,7 +20,6 @@
             }
         </style>
     </head>
-
     <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -29,7 +28,10 @@
             </div>
             <ul class="nav navbar-nav">
                 <li class="active"><a href="${pageContext.request.contextPath}/">Home</a></li>
-                <li><a href="${pageContext.request.contextPath}/addDeck">Add a Deck</a></li>
+                <li class=""><a href="${pageContext.request.contextPath}/classlist">Class List</a></li>
+                    <c:if test="${!empty username}">
+                    <li><a href="${pageContext.request.contextPath}/addDeck">Add a Deck</a></li>
+                    </c:if>
             </ul>
             <form method="post" class="navbar-form navbar-left">
                 <div class="form-group">
@@ -59,32 +61,28 @@
             </c:choose>
         </div>
     </nav>
-    
-        <main role="main" class="container">
+    <div style="margin-top: 30px;"></div>
+    <main role="main" class="container">
         <h2>Cards for ${deckName}</h2>
-            <table class="table table-dark">
+        <table class="table table-dark">
+            <tr>
+                <th>Priority</th>
+                <th>Question</th>
+                <th>Answer</th>
+            </tr>
+            <c:set var="count" value="1" scope="page" />
+            <c:forEach var="card" items="${cardList}">
                 <tr>
-                    <th>Priority</th>
-                    <th>Question</th>
-                    <th>Answer</th>
+                    <td>${count}</td>
+                    <td>${card.question}</td>
+                    <td>${card.answer}</td>
                 </tr>
-                <c:set var="count" value="1" scope="page" />
-                <c:forEach var="card" items="${cardList}">
-                    <tr>
-                        <td>${count}</td>
-                        <td>${card.question}</td>
-                        <td>${card.answer}</td>
-                    </tr>
-                    <c:set var="count" value="${count + 1}" scope="page"/>   
-                </c:forEach>
-            </table>
+                <c:set var="count" value="${count + 1}" scope="page"/>   
+            </c:forEach>
+        </table>
     </main>
-
-
     <footer class="container-fluid bg-4 text-center">
         <p>Bootstrap Theme Made By <a href="https://www.w3schools.com">www.w3schools.com</a></p> 
     </footer>
-
-
 </body>
 </html>

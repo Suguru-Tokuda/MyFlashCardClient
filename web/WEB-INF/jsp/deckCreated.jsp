@@ -29,6 +29,7 @@
             </div>
             <ul class="nav navbar-nav">
                 <li class="active"><a href="${pageContext.request.contextPath}/">Home</a></li>
+                <li class=""><a href="${pageContext.request.contextPath}/classlist">Class List</a></li>
                     <c:if test="${!empty username}">
                     <li><a href="${pageContext.request.contextPath}/addDeck">Add a Deck</a></li>
                     </c:if>
