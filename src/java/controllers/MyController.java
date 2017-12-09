@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import models.Card;
 
 import models.Deck;
@@ -55,10 +56,15 @@ public class MyController {
     String tempDeckid;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String viewIndex(Model model) {
-
+    public String viewIndex(Model model, HttpSession session) {
         deckList = deckStore.getAllDecks();
-
+        
+        String username = "";
+        
+        if (session.getAttribute("username") != null) {
+            username = (String) session.getAttribute("username");
+        }
+        model.addAttribute("username", username);
         model.addAttribute("deckList", deckList);
 
         return "index";
@@ -293,5 +299,5 @@ public class MyController {
         }
         return this.reloadAddCardPage(model);
     }
-
+    
 }

@@ -31,7 +31,7 @@
             }
         </style>
     </head>
-    
+
     <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -48,18 +48,35 @@
                 </div>
                 <button type="submit" class="btn btn-default">Submit</button>
             </form>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-            </ul>
+            <c:choose>
+                <c:when test="${empty username}">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="${pageContext.request.contextPath}/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                        <li><a href="${pageContext.request.contextPath}/signin"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>                
+                    </ul>
+                </c:when>
+                <c:otherwise>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Hello, ${username}</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="${pageContext.request.contextPath}/mydecks"><span class="glyphicon glyphicon-folder-open"></span> My Decks</a></li>
+                                <li><a href="${pageContext.request.contextPath}/profile"><span class="glyphicon glyphicon-book"></span> Profile</a></li>
+                                <li class="divider"></li>
+                                <li><a href="${pageContext.request.contextPath}/logout"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+                            </ul>
+                    </ul>
+                </c:otherwise>
+            </c:choose>
+
         </div>
     </nav>
     <div style="margin-top: 30px;"></div>
 
-<div class="container">
-  <img class="bannerPicture" src="<c:url value="/resources/img/myFlashCardBanner.jpg" />" alt="bannerPic" style="width:100%;">
-  <div class="centered"><h1>My Flash Card</h1></div>
-</div>
+    <div class="container">
+        <img class="bannerPicture" src="<c:url value="/resources/img/myFlashCardBanner.jpg" />" alt="bannerPic" style="width:100%;">
+        <div class="centered"><h1>My Flash Card</h1></div>
+    </div>
 
 
     <main role="main" class="container">

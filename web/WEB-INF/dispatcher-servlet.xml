@@ -21,7 +21,9 @@
     <bean class="api.DeckStore" id="deckStore" scope="singleton" autowire="byName" name="deckStore" />
     <bean class="api.CardStore" id="cardStore" scope="singleton" autowire="byName" name="cardStore" />
     <bean class="api.SchoolClassStore" id="schoolClassStore" scope="singleton" autowire="byName" name="schoolClassStore" />
+    <bean class="api.UserStore" id="userStore" scope="singleton" autowire="byName" name="userStore" />
     <bean class="api.CardAPI" id="cardAPI" scope="singleton" autowire="byName" name="cardAPI" />
     <bean class="api.DeckAPI" id="deckAPI" scope="singleton" autowire="byName" name="deckAPI" />
     <bean class="api.SchoolClassAPI" id="schoolClassAPI" scope="singleton" autowire="byName" name="schoolClassAPI" />
+    <bean class="api.UserAPI" id="userAPI" scope="singleton" autowire="byName" name="userAPI" />
 </beans>

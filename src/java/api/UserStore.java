@@ -29,7 +29,7 @@ public class UserStore {
     String jsonString;
     JSONArray jsonArray;
     
-    public List<User> getAllSchoolClasses() {
+    public List<User> getAllUsers() {
         jsonString = userAPI.getAllUsers();
 
         mapper = new ObjectMapper();

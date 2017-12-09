@@ -59,7 +59,6 @@ public class UserAPI {
     public String getAllUsers() {
         Client client = ClientBuilder.newClient();
         String requestURL = BASE_URL;
-        
         String response = client
                 .target(requestURL)
                 .request(MediaType.APPLICATION_JSON)
