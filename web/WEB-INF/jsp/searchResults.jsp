@@ -40,7 +40,9 @@
             </div>
             <ul class="nav navbar-nav">
                 <li class="active"><a href="${pageContext.request.contextPath}/">Home</a></li>
-                <li><a href="${pageContext.request.contextPath}/addDeck">Add a Deck</a></li>
+                    <c:if test="${!empty username}">
+                    <li><a href="${pageContext.request.contextPath}/addDeck">Add a Deck</a></li>
+                    </c:if>
             </ul>
             <form method="post" class="navbar-form navbar-left">
                 <div class="form-group">
@@ -68,7 +70,6 @@
                     </ul>
                 </c:otherwise>
             </c:choose>
-
         </div>
     </nav>
     <div style="margin-top: 30px;"></div>

@@ -21,6 +21,7 @@ import models.Card;
 
 import models.Deck;
 import models.SchoolClass;
+import models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,6 +53,7 @@ public class MyController {
     List<Card> cardList;
     List<Card> cardListToAdd;
     List<SchoolClass> schoolClassList;
+    List<User> userList;
     Deck tempDeck;
     String tempDeckid;
 
@@ -361,6 +363,16 @@ public class MyController {
             model.addAttribute("msg", deckList.size() + " decks found");
         }
         return "searchResults";
+    }
+    
+    @RequestMapping(value = "/mydeck", method = RequestMethod.GET)
+    public String getMyDeck(Model model, HttpSession session) {
+        String username = (String) session.getAttribute("username");
+        if (username == null)  {
+            return "redirect:/";
+        }
+        userList = 
+        
     }
 
 }

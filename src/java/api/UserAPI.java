@@ -65,5 +65,15 @@ public class UserAPI {
                 .get(String.class);
         return response;
     }
+    
+    public String getUserForUsername(String username) {
+        Client client = ClientBuilder.newClient();
+        String requestURL = BASE_URL + ;
+        String response = client
+                .target(requestURL)
+                .request(MediaType.APPLICATION_JSON)
+                .get(String.class);
+        return response;
+    }
         
 }
