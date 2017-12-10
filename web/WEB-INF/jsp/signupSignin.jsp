@@ -22,43 +22,52 @@
         </style>
     </head>
     <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+   <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
                 <a class="navbar-brand" href="${pageContext.request.contextPath}/">MyFlashCard</a>
             </div>
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="${pageContext.request.contextPath}/">Home</a></li>
-                    <c:if test="${!empty username}">
-                    <li><a href="${pageContext.request.contextPath}/addDeck">Add a Deck</a></li>
-                    </c:if>
-            </ul>
-            <form method="post" class="navbar-form navbar-left">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search" name="keyword">
-                </div>
-                <input type="submit" class="btn btn-default" value="Search" formaction="${pageContext.request.contextPath}/search"/>
-            </form>
-            <c:choose>
-                <c:when test="${empty username}">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="${pageContext.request.contextPath}/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                        <li><a href="${pageContext.request.contextPath}/signin"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>                
-                    </ul>
-                </c:when>
-                <c:otherwise>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Hello, ${username}</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="${pageContext.request.contextPath}/mydecks"><span class="glyphicon glyphicon-folder-open"></span> My Decks</a></li>
-                                <li><a href="${pageContext.request.contextPath}/profile"><span class="glyphicon glyphicon-book"></span> Profile</a></li>
-                                <li class="divider"></li>
-                                <li><a href="${pageContext.request.contextPath}/logout"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
-                            </ul>
-                    </ul>
-                </c:otherwise>
-            </c:choose>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="${pageContext.request.contextPath}/">Home</a></li>
+                    <li class=""><a href="${pageContext.request.contextPath}/classlist">Class List</a></li>
+                        <c:if test="${!empty username}">
+                        <li><a href="${pageContext.request.contextPath}/addDeck">Add a Deck</a></li>
+                        </c:if>
+                </ul>
+                <form method="post" class="navbar-form navbar-left">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search" name="keyword">
+                    </div>
+                    <input type="submit" class="btn btn-default" value="Search" formaction="${pageContext.request.contextPath}/search"/>
+                </form>
+                <c:choose>
+                    <c:when test="${empty username}">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="${pageContext.request.contextPath}/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                            <li><a href="${pageContext.request.contextPath}/signin"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>                
+                        </ul>
+                    </c:when>
+                    <c:otherwise>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Hello, ${username}</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="${pageContext.request.contextPath}/mydecks"><span class="glyphicon glyphicon-folder-open"></span> My Decks</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/profile"><span class="glyphicon glyphicon-book"></span> Profile</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="${pageContext.request.contextPath}/logout"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+                                </ul>
+                        </ul>
+                    </c:otherwise>
+                </c:choose>
+            </div>
         </div>
     </nav>
     <div style="margin-top: 50px;"></div>
