@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author it354f715
  */
 @Controller
-public class MyController {
+public class MainController {
 
     @Autowired
     DeckStore deckStore;
